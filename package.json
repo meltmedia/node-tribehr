@@ -1,0 +1,12 @@
+{
+  "name": "node-tribehr",
+  "version": "0.0.0",
+  "description": "A interface for interacting with tribehr's API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "Nick Crohn <nick@meltmedia.com>",
+  "license": "BSD"
+}
