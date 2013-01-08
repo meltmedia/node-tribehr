@@ -4,7 +4,8 @@ var assert = require('assert'),
     _ = require('underscore'),
     Record = require('../lib/model/record'),
     User = require('../lib/model/user'),
-    TribeHR = require('../index');
+    TribeHR = require('../index'),
+    config = require('./config.json');
 
 describe('TribeHR Module', function() {
 
@@ -179,9 +180,9 @@ describe('TribeHR Module', function() {
         tribeHR = TribeHR();
 
         tribeHR.configure('development', function() {
-          tribeHR.set('site', 'meltiest');
-          tribeHR.set('username', 'ncrohn');
-          tribeHR.set('password', 'aae95328676c034a25742ab00eac361852e03170');
+          tribeHR.set('site', config.site);
+          tribeHR.set('username', config.username);
+          tribeHR.set('password', config.password);
         });
 
         tribeHR.listen();
