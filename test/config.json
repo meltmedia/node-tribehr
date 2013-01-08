@@ -1,5 +1,5 @@
 {
-  "site": "<your site name>"
-  "username": "<your username>"
-  "password": "<your api key"
+  "site": "<site name>",
+  "username": "<username>",
+  "password": "<password or api key>"
 }
