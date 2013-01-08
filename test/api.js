@@ -10,7 +10,7 @@ describe('API', function() {
 
   describe('Users', function() {
 
-    var tribeHR;
+    var tribeHR, user;
 
     before(function() {
       tribeHR = TribeHR();
@@ -22,23 +22,44 @@ describe('API', function() {
       });
 
       tribeHR.listen();
+
+      user = new User({
+        "group_id": 3,
+        "skip_invite": 1,
+        "employee_record": {
+          "first_name": "John",
+          "middle_name": "M",
+          "last_name": "Doe",
+          "phone": "480-390-9440"
+        },
+        "assignment_record": {
+          "effective_date": "2012-9-10",
+          "date_hired": "2012-9-10",
+          "status": 0,
+          "pay_type": 1
+        }
+      });
     });
 
     describe('#get', function() {
       this.timeout(15000);
 
-      it('should not error', function(done) {
+      var error, user;
+
+      before(function(done) {
         tribeHR.get(new User({id: 2}), function(err, data) {
-          assert.equal(null, err);
+          error = err;
+          user = data;
           done();
         });
       });
 
-      it('should return a users record', function(done) {
-        tribeHR.get(new User({id: 2}), function(err, data) {
-          assert.ok(_.isObject(data));
-          done();
-        });
+      it('should not error', function() {
+        assert.equal(null, error);
+      });
+
+      it('should return a users record', function() {
+        assert.ok(_.isObject(user));
       });
 
     });
@@ -46,19 +67,23 @@ describe('API', function() {
     describe('#list', function() {
       this.timeout(15000);
 
-      it('should not error', function(done) {
+      var error, users;
+
+      before(function(done) {
         tribeHR.list(new User({}), function(err, data) {
-          assert.equal(null, err);
+          error = err;
+          users = data;
           done();
         });
       });
 
-      it('should return a list of users', function(done) {
-        tribeHR.list(new User({}), function(err, data) {
-          assert.ok(data.length > 0);
-          assert.ok(_.isArray(data));
-          done();
-        });
+      it('should not error', function() {
+        assert.equal(null, error);
+      });
+
+      it('should return a list of users', function() {
+        assert.ok(users.length > 0);
+        assert.ok(_.isArray(users));
       });
 
     });
@@ -66,24 +91,62 @@ describe('API', function() {
     describe('#create', function() {
       this.timeout(15000);
 
-      it('should not error');
-      it('should return successfully');
+      var error;
+
+      before(function(done) {
+        tribeHR.create(user, function(err) {
+          error = err;
+          done();
+        });
+      });
+
+      it('should not error', function() {
+        assert.equal(null, error);
+      });
+
+      it('should return successfully', function() {
+        assert.notEqual(null, user.get('id'));
+      });
 
     });
 
     describe('#update', function() {
       this.timeout(15000);
 
-      it('should not error');
-      it('should return successfully');
+      var error;
+
+      before(function(done) {
+        tribeHR.update(user, function(err) {
+          error = err;
+          done();
+        });
+      });
+
+      it('should not error', function() {
+        assert.equal(null, error);
+      });
+
+      it('should return successfully', function() {
+        assert.notEqual(null, user.get('id'));
+      });
 
     });
 
     describe('#remove', function() {
       this.timeout(15000);
 
-      it('should not error');
-      it('should return successfully');
+      var error;
+
+      before(function(done) {
+        tribeHR.remove(user, function(err) {
+          error = err;
+          done();
+        });
+      });
+
+      it('should not error', function() {
+        assert.equal(null, error);
+      });
 
     });
 
