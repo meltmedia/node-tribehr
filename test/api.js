@@ -106,6 +106,7 @@ describe('API', function() {
 
       it('should return successfully', function() {
         assert.notEqual(null, user.get('id'));
+        assert.equal(user.get('full_name'), 'John Doe');
       });
 
     });
@@ -116,6 +117,8 @@ describe('API', function() {
       var error;
 
       before(function(done) {
+        user.set('twitter_username', 'johndoe');
+
         tribeHR.update(user, function(err) {
           error = err;
           done();
@@ -128,6 +131,7 @@ describe('API', function() {
 
       it('should return successfully', function() {
         assert.notEqual(null, user.get('id'));
+        assert.equal(user.get('twitter_username'), 'johndoe');
       });
 
     });
