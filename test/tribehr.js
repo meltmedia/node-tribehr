@@ -2,6 +2,8 @@
 
 var assert = require('assert'),
     _ = require('underscore'),
+    Record = require('../lib/model/record'),
+    User = require('../lib/model/user'),
     TribeHR = require('../index');
 
 describe('TribeHR Module', function() {
@@ -114,7 +116,7 @@ describe('TribeHR Module', function() {
 
         tribeHR.configure(function() {
           tribeHR.set('site', 'test-site');
-        })
+        });
 
         tribeHR.configure('development', function() {
           tribeHR.set('site', 'test-dev-site');
@@ -151,7 +153,25 @@ describe('TribeHR Module', function() {
 
   describe('methods', function() {
 
+    var user = new User({
+      "group_id": 3,
+      "skip_invite": 1,
+      "employee_record": {
+        "first_name": "John",
+        "middle_name": "M",
+        "last_name": "Doe",
+        "phone": "480-390-9440"
+      },
+      "assignment_record": {
+        "effective_date": "2012-9-10",
+        "date_hired": "2012-9-10",
+        "status": 0,
+        "pay_type": 1
+      }
+    });
+
     describe('#get', function() {
+      this.timeout(15000);
 
       var tribeHR;
 
@@ -168,22 +188,23 @@ describe('TribeHR Module', function() {
       });
 
       it('should throw an error for invalid command', function(done) {
-        tribeHR.get('bogus-command', null, function(err) {
+        tribeHR.get(new Record({}), function(err) {
           assert.notEqual(null, err);
           done();
         });
       });
 
       it('should return successfully for valid command', function(done) {
-        tribeHR.get('users', {id: 2}, function(err) {
+        tribeHR.get(new User({id: 2}), function(err) {
           assert.equal(null, err);
           done();
-        })
+        });
       });
 
     });
 
     describe('#list', function() {
+      this.timeout(15000);
 
       var tribeHR;
 
@@ -200,22 +221,24 @@ describe('TribeHR Module', function() {
       });
 
       it('should throw an error for invalid command', function(done) {
-        tribeHR.list('bogus-command', function(err) {
+        tribeHR.list(new Record({}), function(err) {
           assert.notEqual(null, err);
           done();
         });
       });
 
       it('should return successfully for valid command', function(done) {
-        tribeHR.list('users', function(err) {
+        tribeHR.list(new User({}), function(err) {
           assert.equal(null, err);
           done();
-        })
+        });
       });
 
     });
 
     describe('#create', function() {
+      this.timeout(15000);
+
       var tribeHR;
 
       before(function() {
@@ -231,21 +254,22 @@ describe('TribeHR Module', function() {
       });
 
       it('should throw an error for invalid command', function(done) {
-        tribeHR.create('bogus-command', null, function(err) {
+        tribeHR.create(new Record({}), function(err) {
           assert.notEqual(null, err);
           done();
         });
       });
 
       it('should return successfully for valid command', function(done) {
-        tribeHR.create('users', null, function(err) {
+        tribeHR.create(user, function(err) {
           assert.equal(null, err);
           done();
-        })
+        });
       });
     });
 
     describe('#update', function() {
+      this.timeout(15000);
 
       var tribeHR;
 
@@ -262,22 +286,23 @@ describe('TribeHR Module', function() {
       });
 
       it('should throw an error for invalid command', function(done) {
-        tribeHR.update('bogus-command', null, function(err) {
+        tribeHR.update(new Record({}), function(err) {
           assert.notEqual(null, err);
           done();
         });
       });
 
       it('should return successfully for valid command', function(done) {
-        tribeHR.update('users', null, function(err) {
+        tribeHR.update(user, function(err) {
           assert.equal(null, err);
           done();
-        })
+        });
       });
 
     });
 
-    describe('#delete', function() {
+    describe('#remove', function() {
+      this.timeout(15000);
 
       var tribeHR;
 
@@ -294,21 +319,21 @@ describe('TribeHR Module', function() {
       });
 
       it('should throw an error for invalid command', function(done) {
-        tribeHR.delete('bogus-command', null, function(err) {
+        tribeHR.remove(new Record({}), function(err) {
           assert.notEqual(null, err);
           done();
         });
       });
 
       it('should return successfully for valid command', function(done) {
-        tribeHR.delete('users', null, function(err) {
+        tribeHR.remove(user, function(err) {
           assert.equal(null, err);
           done();
-        })
+        });
       });
 
     });
 
-  })
+  });
 
 });

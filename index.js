@@ -13,7 +13,7 @@ module.exports = function() {
   };
 
   var configurations = {
-    default: function() {}
+    'default': function () {}
   };
 
   var TribeHR = {
@@ -31,7 +31,7 @@ module.exports = function() {
         }
       } else {
         if(_.isFunction(args[0])) {
-          configurations.default = args[0];
+          configurations['default'] = args[0];
         } else {
           throw new Error('configure takes [String, Function] or [Function] as input');
         }
@@ -46,7 +46,7 @@ module.exports = function() {
     listen: function() {
       var NODE_ENV = (process.env.NODE_ENV) ? process.env.NODE_ENV : 'development';
 
-      configurations.default();
+      configurations['default']();
 
       if(configurations.hasOwnProperty(NODE_ENV)) {
         configurations[NODE_ENV]();
@@ -55,43 +55,47 @@ module.exports = function() {
       api.configure(config);
     },
 
-    get: function(command, data, cb) {
-      if(api.commands.hasOwnProperty(command)) {
-        api.commands[command].get(data, cb);
+    //get: function(command, data, cb) {
+    get: function(record, cb) {
+      if(api.commands.hasOwnProperty(record._type)) {
+        api.commands[record._type].get(record, cb);
       } else {
-        cb(new Error(command+' not implemented.'));
+        cb(new Error(record._type+' not implemented.'));
       }
     },
 
-    list: function(command, cb) {
-      if(api.commands.hasOwnProperty(command)) {
-        api.commands[command].list(cb);
+    list: function(record, cb) {
+      if(api.commands.hasOwnProperty(record._type)) {
+        api.commands[record._type].list(cb);
       } else {
-        cb(new Error(command+' not implemented.'));
+        cb(new Error(record._type+' not implemented.'));
       }
     },
 
-    create: function(command, data, cb) {
-      if(api.commands.hasOwnProperty(command)) {
-        api.commands[command].create(data, cb);
+    //create: function(command, data, cb) {
+    create: function(record, cb) {
+      if(api.commands.hasOwnProperty(record._type)) {
+        api.commands[record._type].create(record, cb);
       } else {
-        cb(new Error(command+' not implemented.'));
+        cb(new Error(record._type+' not implemented.'));
       }
     },
 
-    update: function(command, data, cb) {
-      if(api.commands.hasOwnProperty(command)) {
-        api.commands[command].update(data, cb);
+    //update: function(command, data, cb) {
+    update: function(record, cb) {
+      if(api.commands.hasOwnProperty(record._type)) {
+        api.commands[record._type].update(record, cb);
       } else {
-        cb(new Error(command+' not implemented.'));
+        cb(new Error(record._type+' not implemented.'));
       }
     },
 
-    delete: function(command, data, cb) {
-      if(api.commands.hasOwnProperty(command)) {
-        api.commands[command].delete(data, cb);
+    //remove: function(command, data, cb) {
+    remove: function(record, cb) {
+      if(api.commands.hasOwnProperty(record._type)) {
+        api.commands[record._type].remove(record, cb);
       } else {
-        cb(new Error(command+' not implemented.'));
+        cb(new Error(record._type+' not implemented.'));
       }
     }
   };

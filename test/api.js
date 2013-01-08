@@ -2,6 +2,7 @@
 
 var assert = require('assert'),
     _ = require('underscore'),
+    User = require('../lib/model/user'),
     TribeHR = require('../index');
 
 describe('API', function() {
@@ -23,17 +24,17 @@ describe('API', function() {
     });
 
     describe('#get', function() {
-      this.timeout(5000);
+      this.timeout(15000);
 
       it('should not error', function(done) {
-        tribeHR.get('users', {id: 2}, function(err, data) {
+        tribeHR.get(new User({id: 2}), function(err, data) {
           assert.equal(null, err);
           done();
         });
       });
 
       it('should return a users record', function(done) {
-        tribeHR.get('users', {id: 2}, function(err, data) {
+        tribeHR.get(new User({id: 2}), function(err, data) {
           assert.ok(_.isObject(data));
           done();
         });
@@ -42,17 +43,17 @@ describe('API', function() {
     });
 
     describe('#list', function() {
-      this.timeout(5000);
+      this.timeout(15000);
 
       it('should not error', function(done) {
-        tribeHR.list('users', function(err, data) {
+        tribeHR.list(new User({}), function(err, data) {
           assert.equal(null, err);
           done();
         });
       });
 
       it('should return a list of users', function(done) {
-        tribeHR.list('users', function(err, data) {
+        tribeHR.list(new User({}), function(err, data) {
           assert.ok(data.length > 0);
           assert.ok(_.isArray(data));
           done();
@@ -62,25 +63,25 @@ describe('API', function() {
     });
 
     describe('#create', function() {
-      this.timeout(5000);
+      this.timeout(15000);
 
-      it('should return json');
+      it('should not error');
       it('should return successfully');
 
     });
 
     describe('#update', function() {
-      this.timeout(5000);
+      this.timeout(15000);
 
-      it('should return json');
+      it('should not error');
       it('should return successfully');
 
     });
 
-    describe('#delete', function() {
-      this.timeout(5000);
+    describe('#remove', function() {
+      this.timeout(15000);
 
-      it('should return json');
+      it('should not error');
       it('should return successfully');
 
     });
