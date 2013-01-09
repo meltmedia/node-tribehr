@@ -1,7 +1,8 @@
 // main
 
 var _ = require('underscore'),
-    api = require('./lib/api');
+    api = require('./lib/api'),
+    model = require('./lib/model');
 
 module.exports = function() {
 
@@ -97,7 +98,10 @@ module.exports = function() {
       } else {
         cb(new Error(record._type+' not implemented.'));
       }
-    }
+    },
+
+    User: model.User
+
   };
 
   return TribeHR;
