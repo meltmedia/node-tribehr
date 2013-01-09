@@ -26,6 +26,8 @@ describe('API', function() {
       user = new User({
         "group_id": 3,
         "skip_invite": 1,
+        "username": "jdoe",
+        "email": "john.doe@meltmedia.com",
         "employee_record": {
           "first_name": "John",
           "middle_name": "M",

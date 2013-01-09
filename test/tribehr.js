@@ -152,6 +152,8 @@ describe('TribeHR Module', function() {
 
   });
 
+  /* Decided these were unnecessary as they get tested through the API tests
+
   describe('methods', function() {
 
     var user = new User({
@@ -336,5 +338,6 @@ describe('TribeHR Module', function() {
     });
 
   });
+   */
 
 });
