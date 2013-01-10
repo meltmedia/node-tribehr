@@ -107,3 +107,4 @@ To run test cases simply run the command below.
 npm test
 ```
 
+#### Apache License
