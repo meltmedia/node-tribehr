@@ -3,10 +3,15 @@
 var assert = require('assert'),
     _ = require('underscore'),
     User = require('../lib/model/user'),
+    LeaveRequest = require('../lib/model/leave-request'),
     TribeHR = require('../index'),
     config = require('./config.json');
 
 describe('API', function() {
+
+  /**
+   * Users
+   */
 
   describe('Users', function() {
 
@@ -145,6 +150,149 @@ describe('API', function() {
 
       before(function(done) {
         tribeHR.remove(user, function(err) {
+          error = err;
+          done();
+        });
+      });
+
+      it('should not error', function() {
+        assert.equal(null, error);
+      });
+
+    });
+
+  });
+
+  /**
+   * LeaveRequest Test Cases
+   */
+
+  describe('LeaveRequest', function() {
+
+    var tribeHR, leaveRequest;
+
+    before(function() {
+      tribeHR = TribeHR();
+
+      tribeHR.configure(function() {
+        tribeHR.set('site', config.site);
+        tribeHR.set('username', config.username);
+        tribeHR.set('password', config.password);
+      });
+
+      tribeHR.listen();
+
+      leaveRequest = new LeaveRequest({
+        leave_type_id: 1,
+        user_id: 2,
+        date_start: '1/1/2013',
+        date_end: '1/3/2013',
+        days: 3
+      });
+    });
+
+    describe('#get', function() {
+      this.timeout(15000);
+
+      var error, leaveRequest;
+
+      before(function(done) {
+        tribeHR.get(new LeaveRequest({id: 1}), function(err, data) {
+          error = err;
+          leaveRequest = data;
+          done();
+        });
+      });
+
+      it('should not error', function() {
+        assert.equal(null, error);
+      });
+
+      it('should return a users record', function() {
+        assert.ok(_.isObject(leaveRequest));
+      });
+
+    });
+
+    describe('#list', function() {
+      this.timeout(15000);
+
+      var error, leaveRequests;
+
+      before(function(done) {
+        tribeHR.list(new LeaveRequest({}), function(err, data) {
+          error = err;
+          leaveRequests = data;
+          done();
+        });
+      });
+
+      it('should not error', function() {
+        assert.equal(null, error);
+      });
+
+      it('should return a list of users', function() {
+        assert.ok(leaveRequests.length > 0);
+        assert.ok(_.isArray(leaveRequests));
+      });
+
+    });
+
+    describe('#create', function() {
+      this.timeout(15000);
+
+      var error;
+
+      before(function(done) {
+        tribeHR.create(leaveRequest, function(err) {
+          error = err;
+          done();
+        });
+      });
+
+      it('should not error', function() {
+        assert.equal(null, error);
+      });
+
+      it('should return successfully', function() {
+        assert.notEqual(null, leaveRequest.get('id'));
+        assert.equal(leaveRequest.get('days'), 3);
+      });
+
+    });
+
+    describe('#update', function() {
+      this.timeout(15000);
+
+      var error;
+
+      before(function(done) {
+        leaveRequest.set('comments', 'testing');
+
+        tribeHR.update(leaveRequest, function(err) {
+          error = err;
+          done();
+        });
+      });
+
+      it('should not error', function() {
+        assert.equal(null, error);
+      });
+
+      it('should return successfully', function() {
+        assert.notEqual(null, leaveRequest.get('id'));
+        assert.equal(leaveRequest.get('comments'), 'testing');
+      });
+
+    });
+
+    describe('#remove', function() {
+      this.timeout(15000);
+
+      var error;
+
+      before(function(done) {
+        tribeHR.remove(leaveRequest, function(err) {
           error = err;
           done();
         });

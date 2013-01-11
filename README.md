@@ -108,3 +108,4 @@ npm test
 ```
 
 #### Apache License
+Copyright ©2013 meltmedia

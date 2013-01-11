@@ -56,7 +56,6 @@ module.exports = function() {
       api.configure(config);
     },
 
-    //get: function(command, data, cb) {
     get: function(record, cb) {
       if(api.commands.hasOwnProperty(record._type)) {
         api.commands[record._type].get(record, cb);
@@ -73,7 +72,6 @@ module.exports = function() {
       }
     },
 
-    //create: function(command, data, cb) {
     create: function(record, cb) {
       if(api.commands.hasOwnProperty(record._type)) {
         api.commands[record._type].create(record, cb);
@@ -82,7 +80,6 @@ module.exports = function() {
       }
     },
 
-    //update: function(command, data, cb) {
     update: function(record, cb) {
       if(api.commands.hasOwnProperty(record._type)) {
         api.commands[record._type].update(record, cb);
@@ -91,7 +88,6 @@ module.exports = function() {
       }
     },
 
-    //remove: function(command, data, cb) {
     remove: function(record, cb) {
       if(api.commands.hasOwnProperty(record._type)) {
         api.commands[record._type].remove(record, cb);
@@ -100,7 +96,8 @@ module.exports = function() {
       }
     },
 
-    User: model.User
+    User: model.User,
+    LeaveRequest: model.LeaveRequest
 
   };
 
