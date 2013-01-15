@@ -1,10 +1,15 @@
 // main
 
 var _ = require('underscore'),
+    util = require('util'),
     api = require('./lib/api'),
-    model = require('./lib/model');
+    model = require('./lib/model'),
+    webhook = require('./lib/webhook'),
+    EventEmitter = require('events').EventEmitter;
 
-module.exports = function() {
+var TribeHR = function() {
+
+  EventEmitter.call(this);
 
   var config = {
     site: null,
@@ -17,7 +22,16 @@ module.exports = function() {
     'default': function () {}
   };
 
-  var TribeHR = {
+  var TribeMethods = {
+
+    // EventEmitter Methods
+    addListener: this.addListener,
+    on: this.on,
+    once: this.once,
+    removeListener: this.removeListener,
+    removeAllListeners: this.removeAllListeners,
+    emit: this.emit,
+    listeners: this.listeners,
 
     _getConfig: function() {
       return config;
@@ -44,7 +58,7 @@ module.exports = function() {
       config[prop] = value;
     },
 
-    listen: function() {
+    listen: function(server) {
       var NODE_ENV = (process.env.NODE_ENV) ? process.env.NODE_ENV : 'development';
 
       configurations['default']();
@@ -54,6 +68,9 @@ module.exports = function() {
       }
 
       api.configure(config);
+      if(server) {
+        webhook.configure(config, server, this);
+      }
     },
 
     get: function(record, cb) {
@@ -101,5 +118,8 @@ module.exports = function() {
 
   };
 
-  return TribeHR;
+  return TribeMethods;
 };
+
+util.inherits(TribeHR, EventEmitter);
+module.exports = TribeHR;
